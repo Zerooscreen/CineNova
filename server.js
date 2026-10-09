@@ -103,7 +103,7 @@ app.get('/search', async (req, res) => {
   }
 });
 
-// Halaman Detail Film
+// Halaman Detail Film (Format Judul Baru)
 app.get('/movie/:id', async (req, res) => {
   try {
     const movieId = req.params.id;
@@ -121,7 +121,11 @@ app.get('/movie/:id', async (req, res) => {
       similar: similar.results || []
     });
 
-    res.send(renderLayout(movie.title || 'Detalii Film', content));
+    // Format judul sesuai permintaan: [Judul Film] Vezi Film Online Subtitrat ÎN ROMÂNĂ
+    const movieTitle = movie.title || 'Detalii Film';
+    const customTitle = `[${movieTitle}] Vezi Film Online Subtitrat ÎN ROMÂNĂ`;
+
+    res.send(renderLayout(customTitle, content));
   } catch (err) {
     console.error('Movie Detail Error:', err);
     res.status(404).send('Filmul nu a fost găsit.');
@@ -173,5 +177,5 @@ app.get('/actor/:id', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Serverul CineNova Frulează pe portul ${PORT}`);
+  console.log(`Serverul CineNova rulează pe portul ${PORT}`);
 });
